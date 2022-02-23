@@ -1,0 +1,2013 @@
+swagger: '2.0'
+info:
+    title: API Formulario DGA - Identidad
+    version: 1.0.0
+    description: Identidad
+    contact:
+        name: Iliana Tobar
+        email: iliana.tobar@mh.gob.sv
+consumes:
+    - application/json
+produces:
+    - application/json
+paths:
+    /dga/form:
+        put:
+            tags:
+                - form
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Form'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Devuelve el objeto como quedo
+                    schema:
+                        $ref: '#/definitions/Form'
+            operationId: FORM-0002
+            summary: Actualizar formulario (Solo la tabla principal)
+        post:
+            tags:
+                - form
+            parameters:
+                -
+                    name: body
+                    description: Objeto a guardar sin id
+                    schema:
+                        $ref: '#/definitions/Form'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Devuelve el mismo objeto pero con ID
+                    schema:
+                        $ref: '#/definitions/Form'
+            operationId: FORM-0001
+            summary: Crea un nuevo formulario (Solo la tabla principal)
+    '/dga/dashboard/form/load/{id}':
+        get:
+            consumes:
+                - application/json
+            produces:
+                - application/json
+            tags:
+                - dashboard
+            responses:
+                '200':
+                    description: Carga toda la información del formulario
+                    schema:
+                        $ref: '#/definitions/Form'
+                '403':
+                    description: El formulario no se puede cargar
+                '404':
+                    description: No encontrado
+            operationId: DGA-DASH-FIN-003
+            summary: Carga toda la información del formulario
+            description: finish
+        parameters:
+            -
+                name: id
+                in: path
+                required: true
+                type: string
+    '/dga/form/request/applicant/{formType}/{document}':
+        get:
+            tags:
+                - request
+            responses:
+                '200':
+                    description: Carga la información de RUC del usuario y sus datos en OIM
+                    schema:
+                        $ref: '#/definitions/Applicant'
+                '404':
+                    description: No se encontro el usuario
+                    schema:
+                        type: string
+                '406':
+                    description: El usuario ya esta creado
+                    schema:
+                        type: string
+                '412':
+                    description: |-
+                        No tiene los datos creados de forma correcta:
+                        No esta creado en OIM
+                        No esta creado en AFPA (Externos)
+            operationId: REQ-0002
+            summary: Carga la información de RUC del usuario y sus datos en OIM
+        parameters:
+            -
+                name: formType
+                in: path
+                required: true
+                type: string
+            -
+                name: document
+                in: path
+                required: true
+                type: string
+    /dga/form/request/list/customs:
+        get:
+            tags:
+                - catalog
+            responses:
+                '200':
+                    description: Carga catalogo de Aduanas
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogCustoms'
+            operationId: CAT-0003
+            summary: Catalogo de Aduanas
+    /dga/form/request/list/level/attribute:
+        get:
+            tags:
+                - catalog
+            responses:
+                '200':
+                    description: Carga catalogo de Atributos para internos
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogAttribute'
+            operationId: CAT-0007
+            summary: Catalogo de Atributos para internos
+            description: finish
+    /dga/form/request/list/level/one:
+        get:
+            tags:
+                - catalog
+            responses:
+                '200':
+                    description: Catalogo de Nivel 1
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogLevelOne'
+            operationId: CAT-0008
+            summary: Catalogo de Nivel 1
+            description: finish
+    '/dga/form/request/list/level/two/{levelOneId}':
+        get:
+            tags:
+                - catalog
+            responses:
+                '200':
+                    description: Catalogo de Nivel 2
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogLevelTwo'
+            operationId: CAT-0009
+            summary: Catalogo de Nivel 2
+            description: finish
+        parameters:
+            -
+                name: levelOneId
+                in: path
+                required: true
+                type: string
+    '/dga/form/request/list/level/three/{levelOneId}/{levelTwoId}':
+        get:
+            tags:
+                - catalog
+            responses:
+                '200':
+                    description: Catalogo de Nivel 3
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogLevelThree'
+            operationId: CAT-0010
+            summary: Catalogo de Nivel 3
+            description: finish
+        parameters:
+            -
+                name: levelOneId
+                in: path
+                required: true
+                type: string
+            -
+                name: levelTwoId
+                in: path
+                required: true
+                type: string
+    '/dga/form/request/list/level/four/{levelOneId}/{levelTwoId}/{levelThreeId}':
+        get:
+            tags:
+                - catalog
+            responses:
+                '200':
+                    description: Catalogo de Nivel 4
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogLevelFour'
+            operationId: CAT-0011
+            summary: Catalogo de Nivel 4
+            description: finish
+        parameters:
+            -
+                name: levelOneId
+                in: path
+                required: true
+                type: string
+            -
+                name: levelTwoId
+                in: path
+                required: true
+                type: string
+            -
+                name: levelThreeId
+                in: path
+                required: true
+                type: string
+    /dga/form/request/list/position:
+        get:
+            tags:
+                - catalog
+            responses:
+                '200':
+                    description: Carga catalogo de posiciones
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogPosition'
+            operationId: CAT-0012
+            summary: Catalogo de cargos
+    /dga/form/request/list/type:
+        get:
+            tags:
+                - catalog
+            responses:
+                '200':
+                    description: Carga catalogo de tipos de solicitud
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogRequestType'
+            operationId: CAT-0018
+            summary: Catalogo de tipos de tipos de solicitud
+            description: finish
+    '/dga/form/request/{formId}':
+        put:
+            tags:
+                - form
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Request'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Devuelve el objeto como quedo
+                    schema:
+                        $ref: '#/definitions/Request'
+            operationId: FORM-0003
+            summary: Actualizar Solicitud (Solo la tabla principal)
+        post:
+            tags:
+                - form
+            parameters:
+                -
+                    name: body
+                    description: Objeto a guardar sin id
+                    schema:
+                        $ref: '#/definitions/Request'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Devuelve el mismo objeto pero con ID
+                    schema:
+                        $ref: '#/definitions/Request'
+            operationId: FORM-0004
+            summary: Crea una nueva Solcitud (Solo la tabla principal)
+        parameters:
+            -
+                name: formId
+                in: path
+                required: true
+                type: string
+    '/dga/form/request/other/{requestId}':
+        get:
+            tags:
+                - request
+            responses:
+                '200':
+                    description: Listado de Objetos de Otras solicitudes
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Other'
+            operationId: DGA-OTHER-001
+            summary: Obtener todos los Otros definidos en las tablas (Todos menos en estado a borrar)
+        post:
+            tags:
+                - request
+            parameters:
+                -
+                    name: body
+                    description: Guardar un nuevo objeto profile
+                    schema:
+                        $ref: '#/definitions/Other'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Se confirma como almacenado
+                    schema:
+                        $ref: '#/definitions/Other'
+            operationId: DGA-OTHER-002
+            summary: Crear una nueva solicitud de Otro
+        delete:
+            tags:
+                - request
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Other'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Respuesta correcta de marcado para borrar
+                    schema:
+                        $ref: '#/definitions/Other'
+            operationId: DGA-OTHER-003
+            summary: Marca como para borrar la solicitud
+        options:
+            tags:
+                - request
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Other'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Realizar integracion para enviar hacia tercero
+                    schema:
+                        $ref: '#/definitions/Other'
+            operationId: DGA-PROF-004
+            summary: Realizar integracion para enviar hacia tercero
+        patch:
+            tags:
+                - request
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Other'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Marcar como finalizado
+                    schema:
+                        $ref: '#/definitions/Other'
+            operationId: DGA-OTHER-005
+            summary: Marcar como finalizado
+        parameters:
+            -
+                name: requestId
+                in: path
+                required: true
+                type: string
+    '/dga/form/request/profile/{requestId}':
+        get:
+            tags:
+                - request
+            responses:
+                '200':
+                    description: Listado de Objetos de Perfiles
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Profile'
+            operationId: DGA-PROFI-001
+            summary: Obtener todos los profiles definidos en las tablas (Todos menos en estado a borrar)
+        post:
+            tags:
+                - request
+            parameters:
+                -
+                    name: body
+                    description: Guardar un nuevo objeto profile
+                    schema:
+                        $ref: '#/definitions/Profile'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Se confirma como almacenado
+                    schema:
+                        $ref: '#/definitions/Profile'
+            operationId: DGA-PROFI-002
+            summary: Crear una nueva solicitud de Profile
+        delete:
+            tags:
+                - request
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Profile'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Respuesta correcta de marcado para borrar
+                    schema:
+                        $ref: '#/definitions/Profile'
+            operationId: DGA-PROFI-003
+            summary: Marca como para borrar la solicitud
+        options:
+            tags:
+                - request
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Profile'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Realizar integracion para enviar hacia tercero
+                    schema:
+                        $ref: '#/definitions/Profile'
+            operationId: DGA-PROFI-004
+            summary: Realizar integracion para enviar hacia tercero
+        patch:
+            tags:
+                - request
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Profile'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Marcar como finalizado
+                    schema:
+                        $ref: '#/definitions/Profile'
+            operationId: DGA-PROFI-005
+            summary: Marcar como finalizado
+        parameters:
+            -
+                name: requestId
+                in: path
+                required: true
+                type: string
+    '/dga/form/request/resource/{requestId}':
+        get:
+            tags:
+                - request
+            responses:
+                '200':
+                    description: Listado de Objetos de Resources
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Resource'
+            operationId: DGA-RESO-001
+            summary: Obtener todos los resources definidos en las tablas (Todos menos en estado a borrar)
+        post:
+            tags:
+                - request
+            parameters:
+                -
+                    name: body
+                    description: Guardar un nuevo objeto resource
+                    schema:
+                        $ref: '#/definitions/Resource'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Se confirma como almacenado
+                    schema:
+                        $ref: '#/definitions/Resource'
+            operationId: DGA-RESO-002
+            summary: Crear una nueva solicitud de resource
+        delete:
+            tags:
+                - request
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Resource'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Respuesta correcta de marcado para borrar
+                    schema:
+                        $ref: '#/definitions/Resource'
+            operationId: DGA-RESO-003
+            summary: Marca como para borrar la solicitud
+        parameters:
+            -
+                name: requestId
+                in: path
+                required: true
+                type: string
+    '/dga/form/request/system/{requestId}':
+        get:
+            tags:
+                - request
+            responses:
+                '200':
+                    description: Listado de Objetos de sistemas
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/System'
+            operationId: DGA-SYST-001
+            summary: Obtener todos los sistemas definidos en las tablas (Todos menos en estado a borrar)
+        post:
+            tags:
+                - request
+            parameters:
+                -
+                    name: body
+                    description: Guardar un nuevo objeto sistema
+                    schema:
+                        $ref: '#/definitions/System'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Se confirma como almacenado
+                    schema:
+                        $ref: '#/definitions/System'
+            operationId: DGA-SYST-002
+            summary: Crear una nueva solicitud de sistema
+        delete:
+            tags:
+                - request
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/System'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Respuesta correcta de marcado para borrar
+                    schema:
+                        $ref: '#/definitions/System'
+            operationId: DGA-SYST-003
+            summary: Marca como para borrar la solicitud
+        parameters:
+            -
+                name: requestId
+                in: path
+                required: true
+                type: string
+    /dga/form/request/list/ext/profile:
+        get:
+            tags:
+                - catalog
+            responses:
+                '200':
+                    description: Carga catalogo de perfiles externos
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogProfileExternal'
+            operationId: CAT-0005
+            summary: Catalogo de tipos de perfiles externos
+            description: finish
+        post:
+            tags:
+                - catalog
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/CatalogProfileExternal'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Guardar el tipo de perfiles externos
+                    schema:
+                        $ref: '#/definitions/CatalogProfileExternal'
+            operationId: CRUD-0007
+            summary: Guardar el  tipo de perfiles externos
+        patch:
+            tags:
+                - catalog
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/CatalogProfileExternal'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Actualizar el tipo de perfiles externos
+                    schema:
+                        $ref: '#/definitions/CatalogProfileExternal'
+            operationId: CRUD-0008
+            summary: Actualizar el tipo de perfiles externos
+    /dga/form/request/list/ext/system:
+        get:
+            tags:
+                - catalog
+            responses:
+                '200':
+                    description: Carga catalogo de sistemas externos
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogSystemExternal'
+            operationId: CAT-0006
+            summary: Catalogo de tipos de sistemas externos
+            description: finish
+        post:
+            tags:
+                - catalog
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/CatalogSystemExternal'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Guardar el tipo de sistemas externos
+                    schema:
+                        $ref: '#/definitions/CatalogSystemExternal'
+            operationId: CRUD-0009
+            summary: Guardar el  tipo de sistemas externos
+        patch:
+            tags:
+                - catalog
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/CatalogSystemExternal'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Actualizar el tipo de sistemas externos
+                    schema:
+                        $ref: '#/definitions/CatalogSystemExternal'
+            operationId: CRUD-0010
+            summary: Actualizar el tipo de sistemas externos
+    /dga/form/request/list/afpa/type:
+        get:
+            tags:
+                - catalog
+            responses:
+                '200':
+                    description: Carga catalogo de AFPA
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogTypeAFPA'
+            operationId: CAT-0002
+            summary: Catalogo de AFPA
+            description: finish
+        post:
+            tags:
+                - catalog
+            parameters:
+                -
+                    name: document
+                    description: ''
+                    in: header
+                    type: string
+            responses:
+                '200':
+                    description: Listado de AFPA filtrado
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogTypeAFPA'
+            operationId: Cat-0019
+            summary: Listado de AFPA filtrado por documento
+            description: Listado de AFPA
+    /dga/form/list/type:
+        get:
+            tags:
+                - catalog
+            responses:
+                '200':
+                    description: Carga catalogo de tipos de formulario
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogFormType'
+            operationId: CAT-0001
+            summary: Catalogo de tipos de solicitud (Interna y Externa)
+            description: finish
+    /dga/form/request/list/ext/applicant/type:
+        get:
+            tags:
+                - catalog
+            responses:
+                '200':
+                    description: Carga catalogo de tipos de solicitantes externos
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogExternalApplicantType'
+            operationId: CAT-0004
+            summary: Catalogo de tipos de solicitantes externos
+            description: finish
+    '/dga/form/request/list/profile/{role}':
+        get:
+            tags:
+                - catalog
+            responses:
+                '200':
+                    description: Carga catalogo de perfiles internos
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogProfile'
+            operationId: CAT-0013
+            summary: Catalogo de perfiles internos
+            description: finish
+        post:
+            tags:
+                - catalog
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/CatalogProfile'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Guardar el tipo de perfiles internos
+                    schema:
+                        $ref: '#/definitions/CatalogProfile'
+            operationId: CRUD-0011
+            summary: Guardar el  tipo de perfiles internos
+        patch:
+            tags:
+                - catalog
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/CatalogProfile'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Actualizar el tipo de perfiles internos
+                    schema:
+                        $ref: '#/definitions/CatalogProfile'
+            operationId: CRUD-0012
+            summary: Actualizar el tipo de perfiles internos
+        parameters:
+            -
+                name: role
+                in: path
+                required: true
+                type: string
+    '/dga/form/request/list/resource/{role}':
+        get:
+            tags:
+                - catalog
+            responses:
+                '200':
+                    description: Carga catalogo de recursos internos
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogResource'
+            operationId: CAT-0014
+            summary: Catalogo de recursos internos
+        post:
+            tags:
+                - catalog
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/CatalogResource'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Guardar el tipo de recursos internos
+                    schema:
+                        $ref: '#/definitions/CatalogResource'
+            operationId: CRUD-0013
+            summary: Guardar el  tipo de recursos internos
+        patch:
+            tags:
+                - catalog
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/CatalogResource'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Actualizar el tipo de recursos internos
+                    schema:
+                        $ref: '#/definitions/CatalogResource'
+            operationId: CRUD-0014
+            summary: Actualizar el tipo de recursos internos
+        parameters:
+            -
+                name: role
+                in: path
+                required: true
+                type: string
+    '/dga/form/request/list/system/{role}':
+        get:
+            tags:
+                - catalog
+            responses:
+                '200':
+                    description: Carga catalogo de sistemas internos
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogSystem'
+            operationId: CAT-0015
+            summary: Catalogo de sistemas internos
+            description: finish
+        post:
+            tags:
+                - catalog
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/CatalogSystem'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Guardar el tipo de sistemas internos
+                    schema:
+                        $ref: '#/definitions/CatalogSystem'
+            operationId: CRUD-0015
+            summary: Guardar el  tipo de sistemas internos
+        patch:
+            tags:
+                - catalog
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/CatalogSystem'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Actualizar el tipo de sistemas internos
+                    schema:
+                        $ref: '#/definitions/CatalogSystem'
+            operationId: CRUD-0016
+            summary: Actualizar el tipo de sistemas internos
+        parameters:
+            -
+                name: role
+                in: path
+                required: true
+                type: string
+    '/dga/form/request/list/system/group/{system}':
+        get:
+            tags:
+                - catalog
+            responses:
+                '200':
+                    description: Carga catalogo de grupos internos
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/CatalogGroup'
+            operationId: CAT-0016
+            summary: Catalogo de grupos internos
+            description: finish
+        post:
+            tags:
+                - catalog
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/CatalogGroup'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Guardar el tipo de grupos internos
+                    schema:
+                        $ref: '#/definitions/CatalogGroup'
+            operationId: CRUD-0017
+            summary: Guardar el  tipo de grupos internos
+        patch:
+            tags:
+                - catalog
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/CatalogGroup'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Actualizar el tipo de grupos internos
+                    schema:
+                        $ref: '#/definitions/CatalogGroup'
+            operationId: CRUD-0018
+            summary: Actualizar el tipo de grupos internos
+        parameters:
+            -
+                name: system
+                in: path
+                required: true
+                type: string
+    '/dga/dashboard/pending/{role}/{uid}':
+        get:
+            consumes:
+                - application/json
+            produces:
+                - application/json
+            tags:
+                - dashboard
+            responses:
+                '200':
+                    description: Listado de todas los formularios pendientes
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Form'
+            operationId: DGA-DASH-FIN-002
+            summary: Obtener todas los formularios pendientes ordenados por fecha de creación descendente
+            description: finish
+        parameters:
+            -
+                name: role
+                in: path
+                required: true
+                type: string
+            -
+                name: uid
+                in: path
+                required: true
+                type: string
+    '/dga/dashboard/finish/{role}/{uid}':
+        get:
+            consumes:
+                - application/json
+            produces:
+                - application/json
+            tags:
+                - dashboard
+            responses:
+                '200':
+                    description: Listado de todas los formularios finalizados
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Form'
+                '404':
+                    description: No existen formularios
+                    schema:
+                        type: string
+            operationId: DGA-DASH-FIN-001
+            summary: Obtener todas los formularios finalizados los ultimos 3 meses
+            description: finish
+        parameters:
+            -
+                name: role
+                in: path
+                required: true
+                type: string
+            -
+                name: uid
+                in: path
+                required: true
+                type: string
+    '/dga/form/request/user/load/{formType}/{requestType}/{document}':
+        get:
+            tags:
+                - request
+            responses:
+                '200':
+                    description: Carga la información de RUC del usuario y sus datos en OIM
+                    schema:
+                        $ref: '#/definitions/Person'
+                '404':
+                    description: No se encontro el usuario
+                    schema:
+                        type: string
+                '406':
+                    description: El usuario ya esta creado
+                    schema:
+                        type: string
+                '412':
+                    description: |-
+                        No tiene los datos creados de forma correcta:
+                        No esta creado en OIM
+                        No esta creado en AFPA (Externos)
+            operationId: REQ-0001
+            summary: Carga la información de RUC del usuario y sus datos en OIM
+        parameters:
+            -
+                name: formType
+                in: path
+                required: true
+                type: string
+            -
+                name: requestType
+                in: path
+                required: true
+                type: string
+            -
+                name: document
+                in: path
+                required: true
+                type: string
+    /dga/util/email:
+        post:
+            tags:
+                - util
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Email'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Se deposito en la cola de API OIM para su envio
+            operationId: UTIL-001
+            summary: Envio de correo electronico
+    /dga/flow/email:
+        get:
+            tags:
+                - util
+            parameters:
+                -
+                    name: requestId
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: Correo enviado exitosamente
+            operationId: UTIL-0002
+            summary: Envia el email segun el paso
+    /dga/flow:
+        get:
+            tags:
+                - flow
+            parameters:
+                -
+                    name: body
+                    description: Objeto a guardar sin id
+                    schema:
+                        $ref: '#/definitions/Request'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Devuelve el mismo objeto pero con ID
+                    schema:
+                        $ref: '#/definitions/Flow'
+            operationId: FLOW-0003
+            summary: Obtiene el paso que es el activo
+        put:
+            tags:
+                - flow
+            parameters:
+                -
+                    name: body
+                    description: Objeto a guardar sin id
+                    schema:
+                        $ref: '#/definitions/Flow'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Devuelve el siguiente paso
+                    schema:
+                        $ref: '#/definitions/Flow'
+            operationId: FLOW-0002
+            summary: Actualizar Flujo (Aprobar el paso)
+        post:
+            tags:
+                - flow
+            parameters:
+                -
+                    name: requestId
+                    description: ''
+                    in: query
+                    type: string
+                -
+                    name: processId
+                    description: ''
+                    in: query
+                    type: string
+                -
+                    name: roleId
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: Devuelve el siguiente paso
+                    schema:
+                        $ref: '#/definitions/Flow'
+            operationId: FLOW-0004
+            summary: Crear flujo
+        delete:
+            tags:
+                - flow
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Flow'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Devuelve el siguiente paso
+                    schema:
+                        $ref: '#/definitions/Flow'
+            operationId: FLOW-0001
+            summary: Actualizar Flujo (Rechaza el paso)
+    /dga/flow/login:
+        post:
+            tags:
+                - flow
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Login'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Login exitoso
+                    schema:
+                        $ref: '#/definitions/Login'
+            operationId: LOGIN-0001
+            summary: Login para verificar que es el usuario
+    '/dga/util/account/{requestId}':
+        get:
+            tags:
+                - util
+            responses:
+                '200':
+                    description: Listado de cuentas
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Account'
+            operationId: IDE-001
+            summary: Obtener cuentas que se utilizan en el formulario
+            description: Carga el listado de identidad
+        post:
+            tags:
+                - util
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Account'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Cuenta guardada
+                    schema:
+                        $ref: '#/definitions/Account'
+            operationId: IDE-003
+            summary: Guardar la solicitud
+        delete:
+            tags:
+                - util
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Account'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Cuenta borrada
+                    schema:
+                        $ref: '#/definitions/Account'
+            operationId: IDE-004
+            summary: Borrar cuenta
+        options:
+            tags:
+                - util
+            responses:
+                '200':
+                    description: Listado de cuentas
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Account'
+            operationId: IDE-002
+            summary: Listado de identidades
+        head:
+            tags:
+                - util
+            parameters:
+                -
+                    name: accountId
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: Listado de cuentas disponibles en recurso
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Account'
+            operationId: IDE-005
+            summary: Obtener cuentas disponibles dentro del recurso
+        parameters:
+            -
+                name: requestId
+                in: path
+                required: true
+                type: string
+    '/dga/util/logs/{formId}':
+        get:
+            tags:
+                - util
+            responses:
+                '200':
+                    description: Listado de eventos de formulario
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/EventLog'
+            operationId: LOG-001
+            summary: Listado de eventos de logs
+        parameters:
+            -
+                name: formId
+                in: path
+                required: true
+                type: string
+definitions:
+    Profile:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            profile:
+                $ref: '#/definitions/CatalogProfile'
+                description: ''
+            status:
+                description: ''
+                type: string
+            custom:
+                $ref: '#/definitions/CatalogCustoms'
+                description: ''
+            endDate:
+                description: ''
+                type: string
+            temporal:
+                description: ''
+                type: boolean
+            type:
+                description: Externo/Interno
+                type: string
+    Resource:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            service:
+                description: ''
+                type: string
+            temporal:
+                description: ''
+                type: boolean
+            custom:
+                description: ''
+                type: string
+            endDate:
+                description: ''
+                type: string
+            data:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+            type:
+                description: ''
+                type: string
+    System:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+            group:
+                $ref: '#/definitions/CatalogGroup'
+                description: ''
+            temporal:
+                description: ''
+                type: boolean
+            custom:
+                $ref: '#/definitions/CatalogCustoms'
+                description: ''
+            endDate:
+                description: ''
+                type: string
+            type:
+                description: ''
+                type: string
+    Other:
+        description: ''
+        type: object
+        properties:
+            platform:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+            temporal:
+                description: ''
+                type: boolean
+            data:
+                description: ''
+                type: string
+            endDate:
+                description: ''
+                type: string
+            helpDesk:
+                description: ''
+                type: string
+            sendTo:
+                description: ''
+                type: string
+            type:
+                description: ''
+                type: string
+            id:
+                description: ''
+                type: string
+    Flow:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+            comment:
+                description: ''
+                type: string
+            startDate:
+                description: ''
+                type: string
+            endDate:
+                description: ''
+                type: string
+            result:
+                description: ''
+                type: string
+            user:
+                description: ''
+                type: string
+            flowId:
+                description: ''
+                type: string
+    CatalogCustoms:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+    CatalogExternalApplicantType:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+    CatalogProfileExternal:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+    CatalogSystemExternal:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+    CatalogAttribute:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+    CatalogLevelOne:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+    CatalogLevelTwo:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+    CatalogLevelThree:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+    CatalogLevelFour:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+    CatalogPosition:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+    CatalogGroup:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+            system:
+                $ref: '#/definitions/CatalogSystem'
+                description: ''
+    CatalogProfile:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+    CatalogResource:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+    CatalogSystem:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+    CatalogRequestType:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+    Person:
+        description: ''
+        type: object
+        properties:
+            document:
+                description: ''
+                type: string
+            mail:
+                description: ''
+                type: string
+            uid:
+                description: ''
+                type: string
+            position:
+                $ref: '#/definitions/CatalogPosition'
+                description: ''
+            levelOne:
+                $ref: '#/definitions/CatalogLevelOne'
+                description: ''
+            levelTwo:
+                $ref: '#/definitions/CatalogLevelTwo'
+                description: ''
+            levelThree:
+                $ref: '#/definitions/CatalogLevelThree'
+                description: ''
+            levelFour:
+                $ref: '#/definitions/CatalogLevelFour'
+                description: ''
+            startDate:
+                description: ''
+                type: string
+            endDate:
+                description: ''
+                type: string
+            attribute:
+                $ref: '#/definitions/CatalogAttribute'
+                description: ''
+            typeAFPA:
+                $ref: '#/definitions/CatalogTypeAFPA'
+                description: ''
+            isAFPA:
+                description: ''
+                type: boolean
+            resolution:
+                description: ''
+                type: string
+            codeDeclarant:
+                description: ''
+                type: string
+            id:
+                description: ''
+                type: string
+            approveAFPA:
+                description: ''
+                type: string
+            fullName:
+                description: ''
+                type: string
+            lastName:
+                description: ''
+                type: string
+            surName:
+                description: ''
+                type: string
+            userType:
+                description: 'Iterno, externo'
+                type: string
+            OrganizationCode:
+                description: ''
+                type: string
+            phoneNumber:
+                description: ''
+                type: string
+            alternativeMail:
+                description: ''
+                type: string
+            mobile:
+                description: ''
+                type: string
+            state:
+                description: ''
+                type: string
+    Request:
+        description: Request
+        required:
+            - id
+            - applicant
+            - createdBy
+            - createdOn
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            typeRequest:
+                $ref: '#/definitions/CatalogRequestType'
+                description: ''
+            state:
+                description: ''
+                type: string
+            createBy:
+                description: ''
+                type: string
+            createOn:
+                description: ''
+                type: string
+            approveDate:
+                description: ''
+                type: string
+            profiles:
+                description: ''
+                type: array
+                items:
+                    $ref: '#/definitions/Profile'
+            resources:
+                description: ''
+                type: array
+                items:
+                    $ref: '#/definitions/Resource'
+            systems:
+                description: ''
+                type: array
+                items:
+                    $ref: '#/definitions/System'
+            others:
+                description: ''
+                type: array
+                items:
+                    $ref: '#/definitions/Other'
+            flow:
+                description: ''
+                type: array
+                items:
+                    $ref: '#/definitions/Flow'
+            person:
+                $ref: '#/definitions/Person'
+                description: ''
+            hashCode:
+                description: ''
+                type: string
+            deleteAllGroups:
+                description: ''
+                type: boolean
+            moveToDesactive:
+                description: ''
+                type: boolean
+    CatalogFormType:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+    CatalogApplicationIdentity:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            name:
+                description: ''
+                type: string
+            revokeCode:
+                description: ''
+                type: string
+            itResourceCode:
+                description: ''
+                type: string
+            groupTable:
+                description: ''
+                type: string
+            type:
+                description: ''
+                type: string
+            codeName:
+                description: ''
+                type: string
+    Applicant:
+        description: ''
+        type: object
+        properties:
+            document:
+                description: ''
+                type: string
+            position:
+                $ref: '#/definitions/CatalogPosition'
+                description: ''
+            attribute:
+                $ref: '#/definitions/CatalogAttribute'
+                description: ''
+            externalType:
+                $ref: '#/definitions/CatalogExternalApplicantType'
+                description: ''
+            name:
+                description: ''
+                type: string
+            externalName:
+                description: ''
+                type: string
+            externalRepLegal:
+                description: ''
+                type: string
+            externalCodeDeclarant:
+                description: ''
+                type: string
+            mail:
+                description: ''
+                type: string
+            id:
+                description: ''
+                type: string
+    CatalogTypeAFPA:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+    Form:
+        description: ''
+        required:
+            - closed
+            - id
+            - step
+            - createdBy
+            - createdOn
+            - formType
+        type: object
+        properties:
+            id:
+                description: DGAF-Sequence
+                type: string
+            createdOn:
+                description: 'Start date '
+                type: string
+            createdBy:
+                description: 'created by '
+                type: string
+            modifiedOn:
+                description: 'Start date '
+                type: string
+            modifiedBy:
+                description: 'created by '
+                type: string
+            closed:
+                description: |-
+                    Closed = 1
+                    Open = 0
+                type: boolean
+            step:
+                description: ID Step to follow
+                type: string
+            comment:
+                description: ''
+                type: string
+            requests:
+                description: ''
+                type: array
+                items:
+                    $ref: '#/definitions/Request'
+            applicant:
+                $ref: '#/definitions/Applicant'
+                description: ''
+            applicantViewer:
+                description: Role viewer after finish
+                type: string
+            file1:
+                description: Role viewer after finish
+                type: string
+            file2:
+                description: Role viewer after finish
+                type: string
+            file3:
+                description: Role viewer after finish
+                type: string
+            file4:
+                description: Role viewer after finish
+                type: string
+            file5:
+                description: Role viewer after finish
+                type: string
+            file6:
+                description: Role viewer after finish
+                type: string
+            status:
+                description: ''
+                type: string
+            formType:
+                description: ''
+                type: string
+            createdName:
+                description: ''
+                type: string
+            roleStep:
+                description: ''
+                type: string
+    Email:
+        description: ''
+        type: object
+        properties:
+            from:
+                description: ''
+                type: string
+            to:
+                description: ''
+                type: string
+            subject:
+                description: ''
+                type: string
+            message:
+                description: ''
+                type: string
+    Login:
+        description: ''
+        type: object
+        properties:
+            user:
+                description: ''
+                type: string
+            password:
+                description: ''
+                type: string
+            role:
+                description: ''
+                type: string
+    Account:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            name:
+                description: ''
+                type: string
+            type:
+                description: ''
+                type: string
+            request:
+                description: ''
+                type: string
+            login:
+                description: ''
+                type: string
+            resource:
+                description: ''
+                type: string
+            requestId:
+                description: ''
+                type: string
+            resourceId:
+                description: ''
+                type: string
+            isNew:
+                description: ''
+                type: boolean
+    EventLog:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            event:
+                description: ''
+                type: string
+            date:
+                description: ''
+                type: string
+tags:
+    -
+        name: dashboard
+        description: ''
+    -
+        name: form
+        description: ''
+    -
+        name: request
+        description: ''
