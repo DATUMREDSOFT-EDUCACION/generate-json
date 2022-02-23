@@ -1,0 +1,1775 @@
+swagger: '2.0'
+info:
+    title: OIM API Ministerio de Hacienda
+    version: 1.0.0
+    description: Ministerio de Hacienda
+    contact:
+        name: Oscar Delgado
+        url: 'https://www.identidad.mh.gob.sv'
+        email: oscar.delgado@mh.gob.sv
+    license:
+        name: Apache 2.0
+        url: 'https://www.apache.org/licenses/LICENSE-2.0'
+consumes:
+    - application/json
+produces:
+    - application/json
+paths:
+    /atribute/institucion:
+        get:
+            tags:
+                - attribute
+            responses:
+                '200':
+                    description: Get All Instituciones
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Attribute'
+            operationId: GetInstituciones
+            summary: Get Instituciones
+        post:
+            tags:
+                - attribute
+            responses:
+                '200':
+                    description: Refresh in cache Institucion
+                    schema:
+                        $ref: '#/definitions/Attribute'
+            operationId: refreshInstitucion
+            summary: Refresh Institucion
+            description: Refresh Institucion
+    /atribute/organization:
+        get:
+            tags:
+                - attribute
+            responses:
+                '200':
+                    description: Get All Organization
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Attribute'
+            operationId: GetOrganization
+            summary: Get Organization
+        post:
+            tags:
+                - attribute
+            responses:
+                '200':
+                    description: Refresh in cache Organization
+                    schema:
+                        $ref: '#/definitions/Attribute'
+            operationId: refreshOrganization
+            summary: Refresh Organization
+            description: Refresh Organization
+    /atribute/cargo:
+        get:
+            tags:
+                - attribute
+            responses:
+                '200':
+                    description: Get All Cargo
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Attribute'
+            operationId: GetCargo
+            summary: Get Cargo
+        post:
+            tags:
+                - attribute
+            responses:
+                '200':
+                    description: Refresh in cache Cargo
+                    schema:
+                        $ref: '#/definitions/Attribute'
+            operationId: refreshCargo
+            summary: Refresh Cargo
+            description: Refresh Cargo
+    /atribute/tipoUsuario:
+        get:
+            tags:
+                - attribute
+            responses:
+                '200':
+                    description: Get All Tipo Usuario
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Attribute'
+            operationId: GetTipoUsuario
+            summary: Get Tipo Usuario
+        post:
+            tags:
+                - attribute
+            responses:
+                '200':
+                    description: Refresh in cache Tipo Usuario
+                    schema:
+                        $ref: '#/definitions/Attribute'
+            operationId: refreshTipoUsuario
+            summary: Refresh Tipo Usuario
+            description: Refresh Tipo Usuario
+    /identity:
+        put:
+            tags:
+                - identity
+            parameters:
+                -
+                    name: body
+                    description: Identidad
+                    schema:
+                        $ref: '#/definitions/Identity'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Respuesta de identidad correcta
+                    schema:
+                        $ref: '#/definitions/Identity'
+                '401':
+                    description: La organización es incorrecta
+                '409':
+                    description: El userlogin y/o email se repiten
+                '424':
+                    description: 'Error en los atributos cargo, depedencia, institucion y/o unidad no validos'
+                '500':
+                    description: Error no controlado
+            operationId: updateIdentity
+            summary: Update new Identity
+            description: Update de una identidad
+        post:
+            tags:
+                - identity
+            parameters:
+                -
+                    name: body
+                    description: Identidad
+                    schema:
+                        $ref: '#/definitions/Identity'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Respuesta de identidad correcta
+                    schema:
+                        $ref: '#/definitions/Identity'
+                '401':
+                    description: La organización es incorrecta
+                '409':
+                    description: El userlogin y/o email se repiten
+                '424':
+                    description: 'Error en los atributos cargo, depedencia, institucion y/o unidad no validos'
+                '500':
+                    description: Error no controlado
+            operationId: crateIdentity
+            summary: Create new Identity
+            description: Crear una nuva identidad
+    '/atribute/verify/NIT/{nit}':
+        get:
+            tags:
+                - attribute
+            responses:
+                '200':
+                    description: El NIT se encuentra dentro de OIM
+                    schema:
+                        $ref: '#/definitions/Identity'
+                '404':
+                    description: El nit no se encuentra en OIM
+            operationId: verifyNIT
+            summary: Verificar si el NIT existe en OIM
+        parameters:
+            -
+                name: nit
+                in: path
+                required: true
+                type: string
+    '/identity/findby/email/{email}':
+        get:
+            tags:
+                - identity
+            responses:
+                '200':
+                    description: Usuario encontrado
+                    schema:
+                        $ref: '#/definitions/Identity'
+                '404':
+                    description: Identidad no encontrada
+                '500':
+                    description: Error en servidor
+            operationId: findByUserEmail
+            summary: Find By UserEmail
+            description: Find By UserEmail
+        parameters:
+            -
+                name: email
+                in: path
+                required: true
+                type: string
+    '/identity/findby/NIT/{nit}':
+        get:
+            tags:
+                - identity
+            responses:
+                '200':
+                    description: Usuario encontrado
+                    schema:
+                        $ref: '#/definitions/Identity'
+                '404':
+                    description: Identidad no encontrada
+                '500':
+                    description: Error en servidor
+            operationId: findByUserNIT
+            summary: Find By UserNITNITEmail
+        parameters:
+            -
+                name: nit
+                in: path
+                required: true
+                type: string
+    '/identity/findby/userKey/{userKey}':
+        get:
+            tags:
+                - identity
+            responses:
+                '200':
+                    description: Usuario encontrado
+                    schema:
+                        $ref: '#/definitions/Identity'
+                '404':
+                    description: Identidad no encontrada
+                '500':
+                    description: Error en servidor
+            operationId: findByUserKey
+            summary: Find By UserKey
+            description: Find By UserKey
+        parameters:
+            -
+                name: userKey
+                in: path
+                required: true
+                type: string
+    '/identity/findby/userLogin/{userLogin}':
+        get:
+            tags:
+                - identity
+            responses:
+                '200':
+                    description: Usuario encontrado
+                    schema:
+                        $ref: '#/definitions/Identity'
+                '404':
+                    description: Identidad no encontrada
+                '500':
+                    description: Error en servidor
+            operationId: findByUserLogin
+            summary: Find By UserLogin
+            description: Find By UserLogin
+        parameters:
+            -
+                name: userLogin
+                in: path
+                required: true
+                type: string
+    '/atribute/verify/email/{email}':
+        get:
+            tags:
+                - attribute
+            responses:
+                '200':
+                    description: El Email se encuentra dentro de OIM
+                    schema:
+                        $ref: '#/definitions/Identity'
+                '404':
+                    description: El Email no se encuentra en OIM
+            operationId: verifyEmail
+            summary: Verificar si el Email existe en OIM
+        parameters:
+            -
+                name: email
+                in: path
+                required: true
+                type: string
+    '/atribute/verify/userLogin/{userLogin}':
+        get:
+            tags:
+                - attribute
+            responses:
+                '200':
+                    description: El userLogin se encuentra dentro de OIM
+                    schema:
+                        $ref: '#/definitions/Identity'
+                '404':
+                    description: El userLogin no se encuentra en OIM
+            operationId: verifyuserLogin
+            summary: Verificar si el userLogin existe en OIM
+        parameters:
+            -
+                name: userLogin
+                in: path
+                required: true
+                type: string
+    '/atribute/generate/ext/userLogin/{NIT}':
+        get:
+            tags:
+                - attribute
+            responses:
+                '200':
+                    description: Retorna el UserLogin disponible dentro de OIM
+                    schema:
+                        type: string
+                '500':
+                    description: No se pudo generar el UserLogin
+            operationId: generateextNIT
+            summary: Verificar si el NIT existe en OIM
+        parameters:
+            -
+                name: NIT
+                in: path
+                required: true
+                type: string
+    '/atribute/generate/int/userLogin/{NIT}':
+        get:
+            tags:
+                - attribute
+            responses:
+                '200':
+                    description: Retorna el UserLogin disponible dentro de OIM
+                    schema:
+                        type: string
+                '500':
+                    description: No se pudo generar el UserLogin
+            operationId: generateintNIT
+            summary: Verificar si el NIT existe en OIM
+        parameters:
+            -
+                name: NIT
+                in: path
+                required: true
+                type: string
+    /identity/password:
+        put:
+            tags:
+                - identity
+            parameters:
+                -
+                    name: userLogin
+                    description: ''
+                    in: query
+                    required: true
+                    type: string
+                -
+                    name: oldPassword
+                    description: ''
+                    in: query
+                    required: true
+                    type: string
+                -
+                    name: newPassword
+                    description: ''
+                    in: query
+                    required: true
+                    type: string
+                -
+                    name: justification
+                    description: ''
+                    in: query
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: Se cambio el password correctamente
+                '400':
+                    description: No cumple con las politicas de contaseña
+                '500':
+                    description: Error del servidor
+            operationId: changePasswordSelfService
+            summary: Cambio de Password auto servicio
+        post:
+            tags:
+                - identity
+            parameters:
+                -
+                    name: userLogin
+                    description: ''
+                    in: query
+                    required: true
+                    type: string
+                -
+                    name: password
+                    description: ''
+                    in: query
+                    required: true
+                    type: string
+                -
+                    name: justification
+                    description: ''
+                    in: query
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: Se cambio el password correctamente
+                '400':
+                    description: No cumple con las politicas de contaseña
+                '500':
+                    description: Error del servidor
+            operationId: changePassword
+            summary: Cambio de Password
+    '/identity/status/{userLogin}':
+        get:
+            tags:
+                - identity
+            parameters:
+                -
+                    name: justification
+                    description: ''
+                    in: query
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: Obtiene el status del usuario
+                    schema:
+                        type: string
+            operationId: getStatusFromUser
+            summary: Get status from user
+        post:
+            tags:
+                - identity
+            parameters:
+                -
+                    name: justification
+                    description: ''
+                    in: query
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: Activa el status del usuario
+                    schema:
+                        type: string
+            operationId: enableStatusFromUser
+            summary: Activa status from user
+        delete:
+            tags:
+                - identity
+            parameters:
+                -
+                    name: justification
+                    description: ''
+                    in: query
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: Desactiva el status del usuario
+                    schema:
+                        type: string
+            operationId: disableStatusFromUser
+            summary: Desactiva status from user
+        parameters:
+            -
+                name: userLogin
+                in: path
+                required: true
+                type: string
+    /organization/all:
+        get:
+            tags:
+                - organization
+            responses:
+                '200':
+                    description: 'Obtiene todas las organizaciones '
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Organization'
+            operationId: allOrganizations
+            summary: All Organizations
+    '/organization/findby/id/{id}':
+        get:
+            tags:
+                - organization
+            responses:
+                '200':
+                    description: Organization
+                    schema:
+                        $ref: '#/definitions/Organization'
+            operationId: OrganizationById
+            summary: Get Organization by Id
+        parameters:
+            -
+                name: id
+                in: path
+                required: true
+                type: string
+    '/organization/findby/name/{name}':
+        get:
+            tags:
+                - organization
+            responses:
+                '200':
+                    description: Organization
+                    schema:
+                        $ref: '#/definitions/Organization'
+            operationId: OrganizationByName
+            summary: Get Organization by Name
+        parameters:
+            -
+                name: name
+                in: path
+                required: true
+                type: string
+    '/role/admin/{userLogin}':
+        get:
+            tags:
+                - role
+            responses:
+                '200':
+                    description: Roles Admin
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Role'
+            operationId: getRoleAdminOfUser
+            summary: Role Admin of User
+        parameters:
+            -
+                name: userLogin
+                in: path
+                required: true
+                type: string
+    '/role/func/{userLogin}':
+        get:
+            tags:
+                - role
+            responses:
+                '200':
+                    description: Roles Func
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Role'
+            operationId: getRoleFuncOfUser
+            summary: Role Func of User
+        parameters:
+            -
+                name: userLogin
+                in: path
+                required: true
+                type: string
+    '/audit/{userLogin}':
+        get:
+            tags:
+                - audit
+            responses:
+                '200':
+                    description: Listado de auditoria de usuario
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Audit'
+            operationId: getAllLogsToUser
+            summary: Get All logs to User
+        parameters:
+            -
+                name: userLogin
+                in: path
+                required: true
+                type: string
+    '/entitlement/{userLogin}':
+        get:
+            tags:
+                - entitlement
+            responses:
+                '200':
+                    description: Get entitlements by User
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Entitlement'
+            operationId: get Entitlement User
+            summary: get Entitlements By User
+        put:
+            tags:
+                - entitlement
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Entitlement'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Creacion de un entitlement
+            operationId: addEntitlementToUser
+            summary: Add entitlement To User
+        delete:
+            tags:
+                - entitlement
+            responses:
+                '200':
+                    description: Delete entitlements by User
+            operationId: deleteAllEntitlementFromUser
+            summary: Delete Entitlements All By User
+        patch:
+            tags:
+                - entitlement
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Entitlement'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Se borro el entitlement correctamente
+            operationId: deleteEntitlementFromUser
+            summary: Borrar el entitlement de User Login
+        parameters:
+            -
+                name: userLogin
+                in: path
+                required: true
+                type: string
+    /account/definition/all:
+        get:
+            tags:
+                - account
+            parameters:
+                -
+                    name: userLogin
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: Get all accounts definition
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Resource'
+            operationId: getAllDefinitionAccount
+            summary: Get All of Account
+            description: Get defintion Account
+    /account/definition/ext:
+        get:
+            tags:
+                - account
+            parameters:
+                -
+                    name: userLogin
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: Get all Ext accounts definition
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Resource'
+            operationId: getAllExtDefinitionAccount
+            summary: Get All Ext of Account
+            description: Get Ext defintion Account
+    '/account/definition/{accountName}':
+        get:
+            tags:
+                - account
+            parameters:
+                -
+                    name: accountName
+                    in: path
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: Get  account definition
+                    schema:
+                        $ref: '#/definitions/Resource'
+            operationId: getDefinitionAccount
+            summary: Get  of Account
+            description: Get defintion Account
+        parameters:
+            -
+                name: accountName
+                in: path
+                required: true
+                type: string
+    '/account/child/{userLogin}/{accountId}':
+        get:
+            tags:
+                - account
+            parameters:
+                -
+                    name: childTableName
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: Get all account from user
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/childTableAccount'
+            operationId: getAllChildTableFromAccount
+            summary: Get all account child of user
+        post:
+            tags:
+                - account
+            parameters:
+                -
+                    name: body
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/childTableAccount'
+                    in: body
+                    required: true
+                -
+                    name: childTableName
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: Create account by user
+                    schema:
+                        $ref: '#/definitions/Account'
+            operationId: operationAccountChild
+            summary: Execute Operations Account Child
+        parameters:
+            -
+                name: userLogin
+                in: path
+                required: true
+                type: string
+            -
+                name: accountId
+                in: path
+                required: true
+                type: string
+    '/identity/password/token/{userLogin}':
+        get:
+            tags:
+                - identity
+            parameters:
+                -
+                    name: nit
+                    description: ''
+                    in: query
+                    type: string
+                -
+                    name: email
+                    description: ''
+                    in: query
+                    type: string
+                -
+                    name: ip
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: Token para recuperar password
+                    schema:
+                        type: string
+                '404':
+                    description: El usuario no fue encontrado
+                '500':
+                    description: Problema de servidor
+            operationId: tokenUser
+            summary: Check User
+        parameters:
+            -
+                name: userLogin
+                in: path
+                required: true
+                type: string
+    '/identity/password/check/{userLogin}':
+        get:
+            tags:
+                - identity
+            parameters:
+                -
+                    name: nit
+                    description: ''
+                    in: query
+                    type: string
+                -
+                    name: email
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: Identidad de usuario
+                    schema:
+                        $ref: '#/definitions/Identity'
+                '404':
+                    description: El usuario no fue encontrado
+                '500':
+                    description: Problema de servidor
+            operationId: checkUser
+            summary: Check User
+        parameters:
+            -
+                name: userLogin
+                in: path
+                required: true
+                type: string
+    '/identity/modify/comentario/{userLogin}':
+        post:
+            tags:
+                - identity
+            parameters:
+                -
+                    name: comentario
+                    description: ''
+                    in: query
+                    type: string
+                -
+                    name: justification
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: Modificacion exitosa
+                    schema:
+                        $ref: '#/definitions/Identity'
+                '500':
+                    description: Error en la modificacion
+            operationId: modifyIdentityComentario
+            summary: Modifica el comentario base de la identidad
+        parameters:
+            -
+                name: userLogin
+                in: path
+                required: true
+                type: string
+    /oid/dga:
+        get:
+            tags:
+                - oid
+            parameters:
+                -
+                    name: userLogin
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: True if the user exist in OID
+                '404':
+                    description: |-
+
+                        False if the user is not exist in OID
+            operationId: checkIsOidDGA
+            summary: check is exist in OID DGA
+        post:
+            tags:
+                - oid
+            parameters:
+                -
+                    name: userLogin
+                    description: ''
+                    in: query
+                    type: string
+                -
+                    name: entitlementName
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: The entitlement was set succesful
+                '304':
+                    description: The user has the group yet
+                '404':
+                    description: No found the entitlement
+            operationId: addEntitlementFromUSer
+            summary: Add Entitlement form user
+        delete:
+            tags:
+                - oid
+            parameters:
+                -
+                    name: userLogin
+                    description: ''
+                    in: query
+                    type: string
+                -
+                    name: entitlementName
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: The entitlement was set succesful
+                '304':
+                    description: The user has the group yet
+                '404':
+                    description: No found the entitlement
+            operationId: deleteEntitlementFromUSer
+            summary: Delete Entitlement form user
+    /atribute/lookup:
+        get:
+            tags:
+                - attribute
+            parameters:
+                -
+                    name: lookup
+                    description: ''
+                    in: query
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: Get All Lookup
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Attribute'
+            operationId: getLookup
+            summary: Get Lookup
+    /atribute/dependencia:
+        get:
+            tags:
+                - attribute
+            responses:
+                '200':
+                    description: Get All Depedencia
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Attribute'
+            operationId: GetDepedencia
+            summary: Get Depedencia
+        post:
+            tags:
+                - attribute
+            responses:
+                '200':
+                    description: Refresh in cache Depedencia
+                    schema:
+                        $ref: '#/definitions/Attribute'
+            operationId: refreshDepedencia
+            summary: Refresh Depedencia
+            description: Refresh Depedencia
+        parameters:
+            -
+                name: institucion
+                in: query
+                required: true
+                type: string
+    /atribute/unidad:
+        get:
+            tags:
+                - attribute
+            responses:
+                '200':
+                    description: Get All Unidad
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Attribute'
+            operationId: GetUnidad
+            summary: Get Unidad
+        post:
+            tags:
+                - attribute
+            responses:
+                '200':
+                    description: Refresh in cache Unidad
+                    schema:
+                        $ref: '#/definitions/Attribute'
+            operationId: refreshUnidad
+            summary: Refresh Unidad
+            description: Refresh Unidad
+        parameters:
+            -
+                name: institucion
+                in: query
+                required: true
+                type: string
+            -
+                name: dependencia
+                in: query
+                required: true
+                type: string
+    '/entitlement/definition/{accountName}':
+        get:
+            tags:
+                - entitlement
+            responses:
+                '200':
+                    description: Obtiene los entitlement
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Entitlement'
+            operationId: seachEntitlementByName
+            summary: Search entitlement by name
+        parameters:
+            -
+                name: accountName
+                in: path
+                required: true
+                type: string
+            -
+                name: EntitlementName
+                in: query
+                required: true
+                type: string
+    '/identity/modify/endDate/{userLogin}':
+        post:
+            tags:
+                - identity
+            parameters:
+                -
+                    name: endDate
+                    description: ''
+                    in: query
+                    type: string
+                -
+                    name: justification
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: Modificacion exitosa
+                    schema:
+                        $ref: '#/definitions/Identity'
+                '500':
+                    description: Error en la modificacion
+            operationId: modifyIdentityendDate
+            summary: Modifica el end Date base de la identidad
+        parameters:
+            -
+                name: userLogin
+                in: path
+                required: true
+                type: string
+    '/identity/modify/organization/{userLogin}':
+        post:
+            tags:
+                - identity
+            parameters:
+                -
+                    name: orgName
+                    description: ''
+                    in: query
+                    type: string
+                -
+                    name: justification
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: Modificacion exitosa
+                    schema:
+                        $ref: '#/definitions/Identity'
+                '500':
+                    description: Error en la modificacion
+            operationId: modifyIdentityendOrgName
+            summary: Modifica el  Organizacion base de la identidad
+        parameters:
+            -
+                name: userLogin
+                in: path
+                required: true
+                type: string
+    '/identity/password/verify/{userLogin}':
+        get:
+            tags:
+                - identity
+            parameters:
+                -
+                    name: token
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: El token es correcto
+                    schema:
+                        type: string
+                '404':
+                    description: El usuario no fue encontrado
+                '500':
+                    description: Problema de servidor
+            operationId: verifiyUser
+            summary: Verify User
+        parameters:
+            -
+                name: userLogin
+                in: path
+                required: true
+                type: string
+    /util/email:
+        post:
+            tags:
+                - util
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Email'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Queue Emaill Successful
+                '500':
+                    description: Cant send email
+            operationId: sendEmailOIM
+            summary: Send Email from OIM Managment
+            description: Send Email form oim Management
+    '/atribute/names/{NIT}': {}
+    /oid/3t:
+        get:
+            tags:
+                - oid
+            parameters:
+                -
+                    name: userLogin
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: True if the user exist in OID
+                '404':
+                    description: |-
+
+                        False if the user is not exist in OID
+            operationId: checkIsOid3t
+            summary: check is exist in OID 3t
+        put:
+            tags:
+                - oid
+            parameters:
+                -
+                    name: userLogin
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: El movimiento se realizo correctamente
+                '500':
+                    description: No se pudo mover el usuario
+            operationId: updateDIP3T
+            summary: Actualizar Usuario en DIP
+        post:
+            tags:
+                - oid
+            parameters:
+                -
+                    name: userLogin
+                    description: ''
+                    in: query
+                    type: string
+                -
+                    name: entitlementName
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: The entitlement was set succesful
+                '304':
+                    description: The user has the group yet
+                '404':
+                    description: No found the entitlement
+            operationId: addEntitlementFromUSer3t
+            summary: Add Entitlement form user
+        delete:
+            tags:
+                - oid
+            parameters:
+                -
+                    name: userLogin
+                    description: ''
+                    in: query
+                    type: string
+                -
+                    name: entitlementName
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: The entitlement was set succesful
+                '304':
+                    description: The user has the group yet
+                '404':
+                    description: No found the entitlement
+            operationId: deleteEntitlementFromUSer3t
+            summary: Delete Entitlement form user
+    /account/definition/int:
+        get:
+            tags:
+                - account
+            parameters:
+                -
+                    name: userLogin
+                    description: ''
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: Get all Int accounts definition
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Resource'
+            operationId: getAllIntDefinitionAccount
+            summary: Get All Int of Account
+            description: Get Int defintion Account
+    /account/definition/priv:
+        get:
+            tags:
+                - account
+            responses:
+                '200':
+                    description: Get all Priv accounts definition
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Resource'
+            operationId: getAllPrivDefinitionAccount
+            summary: Get All Priv of Account
+            description: Get Priv defintion Account
+    /login:
+        put:
+            tags:
+                - login
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/User'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Usuario refrescado correctamente
+                    schema:
+                        $ref: '#/definitions/User'
+                '401':
+                    description: Token vencido
+            operationId: updateToken
+            summary: Update token
+        post:
+            tags:
+                - login
+            parameters:
+                -
+                    name: body
+                    description: Login user
+                    schema:
+                        $ref: '#/definitions/Login'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Usuario inicio sesion correctamente
+                    schema:
+                        $ref: '#/definitions/User'
+                '401':
+                    description: Usuario incorrecto
+            operationId: loginOIM
+            summary: Login OIM
+    '/account/{userLogin}':
+        get:
+            tags:
+                - account
+            parameters:
+                -
+                    name: filter
+                    description: |-
+                        Los filtros pueden ser:
+                        ALL
+                        ACTIVE
+                        DISABLE
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: Get all account from user
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/Account'
+            operationId: getAllAccountUser
+            summary: Get all accounts of user
+        put:
+            tags:
+                - account
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Account'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Update account by user
+                    schema:
+                        $ref: '#/definitions/Account'
+            operationId: updateAccount
+            summary: Update account
+        post:
+            tags:
+                - account
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Account'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Create account by user
+                    schema:
+                        $ref: '#/definitions/Account'
+            operationId: createAccount
+            summary: Create account
+        delete:
+            tags:
+                - account
+            parameters:
+                -
+                    name: body
+                    description: Solo recibe el AccountId
+                    schema:
+                        $ref: '#/definitions/Account'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: 'Disable account '
+                    schema:
+                        $ref: '#/definitions/Account'
+            operationId: disableAccount
+            summary: Disable account by user and account
+        head:
+            tags:
+                - account
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Account'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: 'Enable account '
+                    schema:
+                        $ref: '#/definitions/Account'
+            operationId: enableAccount
+            summary: Enable account by user and account
+        patch:
+            tags:
+                - account
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/Account'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Revoke account by user
+                    schema:
+                        $ref: '#/definitions/Account'
+            operationId: revoke Account
+            summary: Revoke account
+        parameters:
+            -
+                name: userLogin
+                in: path
+                required: true
+                type: string
+definitions:
+    Identity:
+        description: ''
+        required:
+            - email
+            - justification
+        type: object
+        properties:
+            userLogin:
+                description: ''
+                type: string
+            email:
+                description: ''
+                type: string
+            firstName:
+                description: ''
+                type: string
+            lastName:
+                description: ''
+                type: string
+            commonName:
+                description: ''
+                type: string
+            homePhone:
+                description: ''
+                type: string
+            organizationName:
+                description: ''
+                type: string
+            mobile:
+                description: ''
+                type: string
+            startDate:
+                description: ''
+                type: string
+            changePassword:
+                description: ''
+                type: boolean
+            cargo:
+                description: ''
+                type: string
+            institucion:
+                description: ''
+                type: string
+            dependencia:
+                description: ''
+                type: string
+            nivel1:
+                description: ''
+                type: string
+            nivel2:
+                description: ''
+                type: string
+            nivel3:
+                description: ''
+                type: string
+            nivel4:
+                description: ''
+                type: string
+            correoAlternativo:
+                description: ''
+                type: string
+            nit:
+                description: ''
+                type: string
+            extension:
+                description: ''
+                type: string
+            tipoUsuario:
+                description: ''
+                type: string
+            comentarios:
+                description: ''
+                type: string
+            creadoPor:
+                description: ''
+                type: string
+            actualizadoPor:
+                description: ''
+                type: string
+            creadoEn:
+                description: ''
+                type: string
+            actualizadoEn:
+                description: ''
+                type: string
+            justification:
+                description: ''
+                type: string
+            estado:
+                description: ''
+                type: string
+            id:
+                description: ''
+                type: string
+            password:
+                description: Password
+                type: string
+    Attribute:
+        description: ''
+        required: []
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            name:
+                description: ''
+                type: string
+    Organization:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            name:
+                description: ''
+                type: string
+            type:
+                description: ''
+                type: string
+    Role:
+        description: ''
+        required: []
+        type: object
+        properties:
+            name:
+                description: ''
+                type: string
+            privilege:
+                description: ''
+                type: array
+                items:
+                    type: string
+    Entitlement:
+        description: Entitlement
+        type: object
+        properties:
+            name:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+            accountKey:
+                description: ''
+                type: string
+            accountName:
+                description: ''
+                type: string
+            userLogin:
+                description: ''
+                type: string
+            userKey:
+                description: ''
+                type: string
+            entitlementId:
+                description: ''
+                type: string
+            entitlementInstanceId:
+                description: ''
+                type: string
+            endDate:
+                description: ''
+                type: string
+            justification:
+                description: ''
+                type: string
+    Audit:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            user:
+                description: ''
+                type: string
+            requester:
+                description: ''
+                type: string
+            date:
+                description: ''
+                type: string
+            justification:
+                description: ''
+                type: string
+    childTableAccount:
+        description: ''
+        type: object
+        properties:
+            id:
+                description: ''
+                type: string
+            name:
+                description: ''
+                type: string
+            alias:
+                description: ''
+                type: string
+            tableName:
+                description: ''
+                type: string
+            attributes:
+                description: ''
+                type: array
+                items:
+                    $ref: '#/definitions/AttributeAccount'
+    AttributeAccount:
+        description: ''
+        type: object
+        properties:
+            key:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+            tableKey:
+                description: ''
+                type: string
+            status:
+                description: ''
+                type: string
+    Account:
+        description: ''
+        required:
+            - justification
+        type: object
+        properties:
+            userLogin:
+                description: ''
+                type: string
+            userKey:
+                description: ''
+                type: string
+            accountKey:
+                description: ''
+                type: string
+            userCustomLogin:
+                description: ''
+                type: string
+            applicationName:
+                description: ''
+                type: string
+            applicationKeyName:
+                description: ''
+                type: string
+            childsTables:
+                description: ''
+                type: array
+                items:
+                    $ref: '#/definitions/childTableAccount'
+            status:
+                description: ''
+                type: string
+            resource:
+                $ref: '#/definitions/Resource'
+                description: ''
+            justification:
+                description: ''
+                type: string
+            accountId:
+                description: ''
+                type: string
+    Resource:
+        description: Resource
+        required: []
+        type: object
+        properties:
+            id:
+                description: id
+                type: string
+            type:
+                description: type
+                type: string
+            subtype:
+                description: subtype
+                type: string
+            name:
+                description: name
+                type: string
+            description:
+                description: description
+                type: string
+            table:
+                description: table
+                type: string
+            userLoginTable:
+                description: userLoginTable
+                type: string
+            parameters:
+                description: ''
+                type: array
+                items:
+                    $ref: '#/definitions/ResourceParameter'
+            childTables:
+                description: ''
+                type: array
+                items:
+                    $ref: '#/definitions/ResourceChildTable'
+    ResourceParameter:
+        description: ''
+        type: object
+        properties:
+            key:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+    ResourceChildTable:
+        description: ''
+        type: object
+        properties:
+            key:
+                description: ''
+                type: string
+            value:
+                description: ''
+                type: string
+    Email:
+        description: ''
+        type: object
+        properties:
+            to:
+                description: ''
+                type: string
+            from:
+                description: ''
+                type: string
+            title:
+                description: ''
+                type: string
+            message:
+                description: ''
+                type: string
+    Login:
+        description: ''
+        type: object
+        properties:
+            username:
+                description: ''
+                type: string
+            password:
+                description: ''
+                type: string
+    User:
+        description: ''
+        type: object
+        properties:
+            username:
+                description: ''
+                type: string
+            userkey:
+                description: ''
+                type: string
+            token:
+                description: ''
+                type: string
+            timestamp:
+                description: ''
+                type: string
+            roles:
+                description: 'Roles '
+                type: array
+                items:
+                    $ref: '#/definitions/Role'
